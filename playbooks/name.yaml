@@ -1,0 +1,10 @@
+---
+- hosts: "{{ hosts | default('all') }}"
+  remote_user: root
+  tasks:
+    - name: change name
+      raw: "echo {{hostname|quote}} > /etc/hostname"
+    - name: echo hostname
+      shell: hostname {{hostname|quote}}
+    # - name: install ssh key
+    #   authorized_key: user=root key="{{ lookup('file', '../ssh/id_rsa.pub') }}" state=present

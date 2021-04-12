@@ -1,0 +1,6 @@
+---
+- hosts: swr
+  remote_user: root
+  tasks:
+    - name: docker pull from swr
+      script: ../bin/pull-iamges.sh

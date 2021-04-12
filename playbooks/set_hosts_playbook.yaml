@@ -1,0 +1,10 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+    - name: backup /etc/hosts 如何幂等?
+      shell: mv /etc/hosts /etc/hosts_bak
+    
+    - name: copy hosts to remote
+      copy: src=../etc/hosts dest=/etc/ owner=root group=root mode=0644
