@@ -1,0 +1,28 @@
+---
+- hosts: master
+  remote_user: root
+  tasks:
+# mkdir /var/nfsshare
+# chmod -R 755 /var/nfsshare
+# chown nfsnobody:nfsnobody /var/nfsshare
+    - name: yum nfs-utils
+      yum: name=nfs-utils state=present
+    - name: mkdir 
+      file: 
+        path: /var/nfsshare
+        state: directory
+        owner: nfsnobody
+        mode: 755
+    - name: enable
+      shell: systemctl enable rpcbind && systemctl enable nfs-server 
+    - name: start
+      shell: systemctl start rpcbind && systemctl start nfs-server 
+    - name: scp exports
+      copy: src=../etc/exports dest=/etc/ owner=root group=root mode=0644 
+    - name: restart
+      shell: systemctl restart nfs-server 
+    - name: show mount
+      shell: showmount -e 192.168.0.140 
+      register: showmount
+    - name: show showmount
+      debug: var=showmount verbosity=0

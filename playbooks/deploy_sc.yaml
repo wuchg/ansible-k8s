@@ -1,0 +1,17 @@
+---
+- hosts: master
+  remote_user: root
+
+  tasks:
+    - name: scp
+      copy: 
+        src: '{{item.src}}'
+        dest: '{{item.dest}}'
+      with_items:
+        - {src: '../etc/sc/sc.yaml',dest: '/root/'}
+        - {src: '../etc/sc/test-claim.yaml',dest: '/root/'}
+        - {src: '../etc/sc/test-pod.yaml',dest: '/root'}
+    - name: test claim
+      shell: kubectl apply -f /root/test-claim.yaml
+    - name:  apply pod
+      shell: kubectl apply -f /root/test-pod.yaml

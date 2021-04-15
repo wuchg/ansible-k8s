@@ -1,0 +1,25 @@
+---
+- hosts: nfsClient
+  remote_user: root
+  tasks:
+  # https://www.howtoforge.com/nfs-server-and-client-on-centos-7
+    - name: yum nfs-utils
+      yum: name=nfs-utils state=present
+    - name: mkdir 
+      file: 
+        path: /mnt/nfs/var/nfsshare
+        state: directory
+      ignore_errors: True
+    - name: mount
+      shell: mount -t nfs 192.168.0.140:/var/nfsshare /mnt/nfs/var/nfsshare/
+      ignore_errors: True
+    - name: lineinfile
+      lineinfile: 
+        dest: /etc/fstab
+        line: '192.168.0.140:/var/nfsshare   /mnt/nfs/var/nfsshare   nfs defaults 0 0'
+      ignore_errors: True
+    - name: cat fstab
+      shell: cat /etc/fstab
+      register: fstab
+    - name: show fstab
+      debug: var=fstab verbosity=0
