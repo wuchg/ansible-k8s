@@ -89,6 +89,8 @@ spec:
         app: nfs-client-provisioner
     spec:
       serviceAccountName: nfs-client-provisioner
+      nodeSelector:
+        nfs-client-provisioner: 'true'
       containers:
         - name: nfs-client-provisioner
           image: quay.io/external_storage/nfs-client-provisioner:latest

@@ -1,0 +1,8 @@
+---
+- hosts: master
+  remote_user: root
+  tasks:
+     - name: ssh-keygen
+       shell: ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa
+     - name: copy to nodes
+       shlle: cat /root/.ssh/id_rsa.pub | ssh root@node3  "umask 077; mkdir -p .ssh ; cat >> .ssh/authorized_keys"

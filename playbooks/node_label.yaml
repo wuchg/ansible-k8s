@@ -1,0 +1,7 @@
+---
+- hosts: master
+  remote_user: root
+  tasks:
+    - name: node label
+      shell: for i in 1 2 3; do kubectl label node node$i node-role.kubernetes.io/node=; done
+

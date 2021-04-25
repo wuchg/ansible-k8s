@@ -11,7 +11,11 @@
         - {src: '../etc/sc/sc.yaml',dest: '/root/'}
         - {src: '../etc/sc/test-claim.yaml',dest: '/root/'}
         - {src: '../etc/sc/test-pod.yaml',dest: '/root'}
+    - name: apply sc
+      shell: kubectl apply -f /root/sc.yaml
     - name: test claim
       shell: kubectl apply -f /root/test-claim.yaml
     - name:  apply pod
       shell: kubectl apply -f /root/test-pod.yaml
+    - name: set default sc
+      shell: kubectl patch storageclass managed-nfs-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
